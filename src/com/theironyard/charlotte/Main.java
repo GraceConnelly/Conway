@@ -86,25 +86,18 @@ public class Main {
         int ticks = 0;
         while (ticks > 1000) {
             String[][] workingCopy = deepArrayCopy(currentTick);
-            //Iterate through the entire currentTick array. Determine if the cell live or dies.Store the status in the workingCopy array
+            //Iterate through the entire currentTick array. Determine if the cell lives or dies. Store the status in the workingCopy array
             for (int i = 0; i < currentTick.length; i++) {
                 for (int j = 0; j < currentTick[i].length; j++) {
-                    int aliveCnt = getAliveNeighbors(currentTick, i, j);
-                    boolean isAlive = (currentTick[i][j].equals("1"));
-                    isAlive = livesOrDies(aliveCnt, isAlive);
-                    //store in working Copy
-                    if (isAlive) {
+                    if (livesOrDies(getAliveNeighbors(currentTick, i, j), (currentTick[i][j].equals("1")))) {
                         workingCopy[i][j] = "1";
                     } else workingCopy[i][j] = "0";
                 }
-
             }
             currentTick = deepArrayCopy(workingCopy);
             ticks++;
         }
-        // compare currentTick to output
-        // note: you should be able to use Arrays.deepEquals to
-        // compare these arrays
+        // compare currentTick to output using Arrays.deepEquals to
         if(Arrays.deepEquals(currentTick,getFileContents("output.txt"))) {
             System.out.println("Victory!!");
         }
