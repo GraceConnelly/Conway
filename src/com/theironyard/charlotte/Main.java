@@ -79,34 +79,36 @@ public class Main {
         }
         return isAlive;
     }
-
-
     public static void main(String[] args) throws IOException {
-        // create a copy of the input.txt array to work with
-        String[][] copy = deepArrayCopy(getFileContents("input.txt"));
-        //TODO: Build while loop to go through specified number of times
-
-
-        String[][] workingCopy = copy;
-        //Iterate through the entire copy array. Determine if the cell live or dies.Store the status in the workingCopy array
-        for (int i = 0; i < copy.length; i++) {
-            for (int j = 0; j < copy[i].length; j++) {
-                int aliveCnt = getAliveNeighbors(copy,i,j);
-                boolean isAlive = (copy[i][j].equals("1"));
-                isAlive = livesOrDies(aliveCnt, isAlive);
-                //store in working Copy
-                if (isAlive) {
-                    workingCopy[i][j] = "1";
+        // create a currentTick of the input.txt array to work with
+        String[][] currentTick = getFileContents("input.txt");
+        //while loop to go through specified number of ticks
+        int ticks = 0;
+        while (ticks > 1000) {
+            String[][] workingCopy = deepArrayCopy(currentTick);
+            //Iterate through the entire currentTick array. Determine if the cell live or dies.Store the status in the workingCopy array
+            for (int i = 0; i < currentTick.length; i++) {
+                for (int j = 0; j < currentTick[i].length; j++) {
+                    int aliveCnt = getAliveNeighbors(currentTick, i, j);
+                    boolean isAlive = (currentTick[i][j].equals("1"));
+                    isAlive = livesOrDies(aliveCnt, isAlive);
+                    //store in working Copy
+                    if (isAlive) {
+                        workingCopy[i][j] = "1";
+                    } else workingCopy[i][j] = "0";
                 }
-                else workingCopy[i][j]= "0";
+
             }
-
+            currentTick = deepArrayCopy(workingCopy);
+            ticks++;
         }
-        copy = workingCopy;
-
-        //TODO: compare copy to output
+        // compare currentTick to output
         // note: you should be able to use Arrays.deepEquals to
         // compare these arrays
+        if(Arrays.deepEquals(currentTick,getFileContents("output.txt"))) {
+            System.out.println("Victory!!");
+        }
+        else System.out.println("Try again sucker!");
     }
 
 
