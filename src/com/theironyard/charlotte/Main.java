@@ -38,7 +38,8 @@ public class Main {
         return copy;
     }
 
-    private static int getAliveNeighbors(String[][] array, int i, int j) {
+
+    public static int getAliveNeighbors(String[][] array, int i, int j) {
         // method determines Moore's neighborhood of alive neighbors
         int aliveCnt = 0;
 
@@ -56,6 +57,29 @@ public class Main {
             }
         return aliveCnt;
     }
+        public static int bensGetAliveNeighbors(String[][] array, int i, int j) {
+            // method determines Moore's neighborhood of alive neighbors
+
+        int count = 0;
+        if (i > 0 && j > 0 && array[i - 1][j - 1].equals("1")) {
+            count++;        }
+        if (i > 0 && array[i - 1][j].equals("1")) {
+            count++;        }
+        if (i > 0 && j < array.length - 1 && array[i - 1][j + 1].equals("1")) {
+            count++;        }
+        if (j > 0 && array[i][j - 1].equals("1")) {
+            count++;        }
+        if (j < array.length - 1 && array[i][j + 1].equals("1")) {
+            count++;        }
+        if (i < array.length - 1 && j > 0 && array[i + 1][j - 1].equals("1")) {
+            count++;        }
+        if (i < array.length - 1 && array[i + 1][j].equals("1")) {
+            count++;        }
+        if (i < array.length - 1 && j < array.length - 1 && array[i + 1][j + 1].equals('1')) {
+            count++;        }
+        return count;
+    }
+
     private static boolean livesOrDies(int aliveCnt, boolean isAlive){
 //        Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
 //        Any live cell with two or three live neighbours lives on to the next generation.
@@ -76,6 +100,7 @@ public class Main {
                 break;
             default:
                 isAlive = false;
+                break;
         }
         return isAlive;
     }
@@ -91,11 +116,13 @@ public class Main {
                 for (int j = 0; j < currentTick[i].length; j++) {
                     if (livesOrDies(getAliveNeighbors(currentTick, i, j), (currentTick[i][j].equals("1")))) {
                         workingCopy[i][j] = "1";
-                    } else workingCopy[i][j] = "0";
+                    } else{
+                        workingCopy[i][j] = "0";
+                    }
                 }
             }
             currentTick = deepArrayCopy(workingCopy);
-            System.out.println(Arrays.deepToString(currentTick[0]));
+            //System.out.println(Arrays.deepToString(currentTick[0]));
             ticks++;
         }
         // compare currentTick to output using Arrays.deepEquals to
@@ -107,7 +134,7 @@ public class Main {
             System.out.println(Arrays.deepToString(currentTick[0]));
         }
         else System.out.println("Try again sucker!");
+//        System.out.println(Arrays.deepToString(givenOut[0]));
+//        System.out.println(Arrays.deepToString(currentTick[0]));
     }
-
-
 }
