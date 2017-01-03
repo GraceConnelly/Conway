@@ -42,10 +42,10 @@ public class Main {
         // method determines Moore's neighborhood of alive neighbors
         int aliveCnt = 0;
 
-            for (int k = i-1; k <= i+1 ; k++) {
-                for (int l = j-1; l <= j+1; l++) {
-                    if(k >= 0 && k < array.length && l >= 0 && l < array[k].length) {  //takes care of array boundaries
-                        if (array[k][l].equals("1")) {
+            for (int row = i-1; row <= i+1 ; row++) {
+                for (int col = j-1; col <= j+1; col++) {
+                    if(row >= 0 && row < array.length && col >= 0 && col < array[row].length) {  //takes care of array boundaries
+                        if (array[row][col].equals("1")) {
                             aliveCnt++;
                         }
                     }
@@ -84,7 +84,7 @@ public class Main {
         String[][] currentTick = getFileContents("input.txt");
         //while loop to go through specified number of ticks
         int ticks = 0;
-        while (ticks > 1000) {
+        while (ticks < 1000) {
             String[][] workingCopy = deepArrayCopy(currentTick);
             //Iterate through the entire currentTick array. Determine if the cell lives or dies. Store the status in the workingCopy array
             for (int i = 0; i < currentTick.length; i++) {
@@ -95,11 +95,16 @@ public class Main {
                 }
             }
             currentTick = deepArrayCopy(workingCopy);
+            System.out.println(Arrays.deepToString(currentTick[0]));
             ticks++;
         }
         // compare currentTick to output using Arrays.deepEquals to
-        if(Arrays.deepEquals(currentTick,getFileContents("output.txt"))) {
+        String[][] givenOut = getFileContents("output.txt");
+        if(Arrays.deepEquals(currentTick,givenOut)) {
             System.out.println("Victory!!");
+
+            System.out.println(Arrays.deepToString(givenOut[0]));
+            System.out.println(Arrays.deepToString(currentTick[0]));
         }
         else System.out.println("Try again sucker!");
     }
